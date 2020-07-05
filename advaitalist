@@ -1,0 +1,80 @@
+"use strict";
+
+// ==UserScript==
+// @name         Advaita List Word Wrap
+// @namespace    http://tampermonkey.net/
+// @import url('https://fonts.googleapis.com/css2?family=Yellowtail&display=swap');
+// @version      0.1
+// @description  In Advaita List website, Some posts require horizontal scroll because of lack of line breaks. This script fixes that by giving Word Wrap & some font enhancements.
+// @author       Mahadevan Iyer
+// @match        https://www.advaita-vedanta.org/archives/advaita-l/*
+// @grant        none
+// ==/UserScript==
+
+let styleSheet = `
+/* gives wrap to pre tag, also changes font to Lexend Deca */
+
+pre {
+            overflow-x: auto;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Lexend Deca';
+         }
+/* Changes body font to Lexend Deca */
+body {
+font-family: "Lexend Deca",sans-serif !important;
+}
+/* Google Search Style */
+#googlesearch {
+  position: relative;
+  padding-top: 15px;
+  width: 50%;
+}
+
+/* gives fluidity to text and increase font size */
+html {
+  font-size: 16px;
+}
+@media screen and (min-width: 320px) {
+  html {
+    font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+  }
+}
+@media screen and (min-width: 1000px) {
+  html {
+    font-size: 22px;
+  }
+}
+`;
+
+(function () {
+/* Import Lexand Deca Font from Google Fonts */
+    let lexfont = document.createElement('link');
+    lexfont.rel = 'stylesheet';
+    lexfont.href = 'https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap';
+    document.head.appendChild(lexfont);
+
+/* Custom Google Search Code */
+    let gsearch = document.createElement('script');
+    gsearch.id = 'googlesearch';
+    gsearch.type = 'text/javascript';
+    gsearch.src = 'https://cse.google.com/cse.js?cx=006692653450856610993:ftezolpnggu';
+    document.head.appendChild(gsearch);
+
+/* Creates Style Sheet where all styles are defined */    
+  let s = document.createElement('style');
+  s.type = "text/css";
+  s.innerHTML = styleSheet;
+  (document.head || document.documentElement).appendChild(s);
+
+
+/* Google Search Div Tag, placed after first Heading */
+    let div = document.createElement('div');
+    div.setAttribute('class', 'gcse-searchbox-only');
+    div.setAttribute('id', 'googlesearch');
+    document.getElementsByTagName("h1")[0].appendChild(div);
+
+})();
