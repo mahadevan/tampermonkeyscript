@@ -4,7 +4,7 @@
 // @name         Advaita List Word Wrap
 // @namespace    http://tampermonkey.net/
 // @import url('https://fonts.googleapis.com/css2?family=Yellowtail&display=swap');
-// @version      0.1
+// @version      0.2
 // @license     MIT; https://openuserjs.org/users/mahadevaniyer
 // @description  In Advaita List website, Some posts require horizontal scroll because of lack of line breaks. This script fixes that by giving Word Wrap & some font enhancements.
 // @author       Mahadevan Iyer
@@ -16,6 +16,10 @@ let styleSheet = `
 /* Changes body font to Lexend Deca */
 body {
 font-family: "Lexend Deca",sans-serif !important;
+}
+
+body H1 {
+font-family: "Noto Serif",sans-serif !important;
 }
 
 body {
@@ -98,7 +102,7 @@ html {
     /* Import Lexand Deca Font from Google Fonts */
     let lexfont = document.createElement('link');
     lexfont.rel = 'stylesheet';
-    lexfont.href = 'https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap';
+    lexfont.href = 'https://fonts.googleapis.com/css2?family=Lexend+Deca&family=Noto+Serif&display=swap';
     document.head.appendChild(lexfont);
 
     /* Custom Google Search Code */
@@ -135,12 +139,21 @@ html {
         document.body.classList.toggle("dark-theme");
     });
 
-    /* pdf */
-    var a = document.createElement('a');
-    var link = document.createTextNode(" 📃 [ Save to PDF ] ");
-    a.appendChild(link);
-    a.href = "https://www.sejda.com/html-to-pdf?save-link";
-    document.body.appendChild(a);
+    /* pdf with sajda - external */
+    var pdf = document.createElement('a');
+    var pdflink = document.createTextNode(" 📰 [ Save to PDF ] ");
+    pdf.appendChild(pdflink);
+    pdf.href = "https://www.sejda.com/html-to-pdf?save-link";
+    document.body.appendChild(pdf);
+
+    /* print with printwhatyouwant */
+    var print = document.createElement('a');
+    var printlink = document.createTextNode(" 🖨 [ Print ] ");
+    print.appendChild(printlink);
+    print.href = "javascript:(function(){if(window['ppw']&&ppw['bookmarklet']){ppw.bookmarklet.toggle();}else{window._pwyl_home='//www.printwhatyoulike.com/';window._pwyl_pro_id=null;window._pwyl_bmkl=document.createElement('script');window._pwyl_bmkl.setAttribute('type','text/javascript');window._pwyl_bmkl.setAttribute('src',window._pwyl_home+'static/compressed/pwyl_bookmarklet_10.js');window._pwyl_bmkl.setAttribute('pwyl','true');document.getElementsByTagName('head')[0].appendChild(window._pwyl_bmkl);}})();";
+    document.body.appendChild(print);
+
+
 
 
 })();
